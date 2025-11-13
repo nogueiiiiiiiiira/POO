@@ -48,7 +48,7 @@ lib/
 ├── jackson-annotations-2.15.2.jar
 ├── jackson-core-2.15.2.jar
 ├── jackson-databind-2.15.2.jar
-└── mysql-connector-j-8.0.33.jar  # Versão mais recente mantida
+└── mysql-connector-j-8.0.33.jar  
 ```
 
 ## Como funciona por trás das bibliotecas

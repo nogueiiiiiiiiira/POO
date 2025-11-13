@@ -155,7 +155,7 @@ Bibliotecas (lib/):
 - jackson-core-2.15.2.jar
 - jackson-databind-2.15.2.jar
 - jackson-annotations-2.15.2.jar
-- mysql-connector-j-8.0.33.jar (versão mais recente mantida)
+- mysql-connector-j-8.0.33.jar
 ```
 
 ## Como Executar
