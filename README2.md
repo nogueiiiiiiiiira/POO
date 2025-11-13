@@ -65,7 +65,7 @@ fetch(self.urlApi + '/alunos/atualizar', {
 
 **Servidor Java implementado:**
 - **Arquivo:** `src/Main.java`
-- **Biblioteca:** `com.sun.net.httpserver.HttpServer` (servidor HTTP embutido do Java)
+- **Biblioteca:** `com.sun.net.httpserver.HttpServer` (biblioteca própria do Java - não externa)
 - **Implementação:**
 ```java
 HttpServer servidor = HttpServer.create(new InetSocketAddress(8080), 0);
