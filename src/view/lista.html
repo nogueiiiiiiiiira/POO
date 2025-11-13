@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Alunos - Karen & Breno</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="cabecalho">
+        <div class="conteudo-principal">
+            <nav class="navegacao">
+                <div class="logo">Karen & Breno</div>
+                <ul class="links-navegacao">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="cadastro.html">Cadastrar</a></li>
+                    <li><a href="lista.html" class="ativo">Lista</a></li>
+                    <li><a href="atualizar.html">Atualizar</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="principal">
+        <div class="conteudo-principal">
+            <div class="cartao">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h2 style="margin: 0;">Lista de Alunos Cadastrados</h2>
+                    <a href="cadastro.html" class="botao botao-verde">Novo Aluno</a>
+                </div>
+
+                <div id="loading" class="carregando">Carregando alunos...</div>
+
+                <table id="tabelaAlunos" class="tabela escondido">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>E-mail</th>
+                            <th>Curso</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="corpoTabela">
+                    </tbody>
+                </table>
+
+                <div id="mensagemLista" class="mensagem escondido"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        var sistema = new SistemaAlunos();
+        sistema.carregarLista();
+    </script>
+</body>
+</html>

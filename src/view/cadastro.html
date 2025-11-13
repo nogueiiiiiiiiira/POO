@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Aluno - Karen & Breno</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="cabecalho">
+        <div class="conteudo-principal">
+            <nav class="navegacao">
+                <div class="logo">Karen & Breno</div>
+                <ul class="links-navegacao">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="cadastro.html" class="ativo">Cadastrar</a></li>
+                    <li><a href="lista.html">Lista</a></li>
+                    <li><a href="atualizar.html">Atualizar</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="principal">
+        <div class="conteudo-principal">
+            <div class="cartao">
+                <h2>Cadastrar Novo Aluno</h2>
+                <form id="formCadastro">
+                    <div class="form-row">
+                        <div class="grupo-formulario">
+                            <label for="nome">Nome Completo</label>
+                            <input type="text" id="nome" class="controle-formulario" required>
+                        </div>
+                        <div class="grupo-formulario">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" class="controle-formulario" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="grupo-formulario">
+                            <label for="curso">Curso</label>
+                            <select id="curso" class="controle-formulario" required>
+                                <option value="">Selecione um curso</option>
+                                <option value="Engenharia de Software">Engenharia de Software</option>
+                                <option value="Ciência da Computação">Ciência da Computação</option>
+                                <option value="Sistemas de Informação">Sistemas de Informação</option>
+                                <option value="Administração">Administração</option>
+                                <option value="Direito">Direito</option>
+                                <option value="Medicina">Medicina</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="botao">Cadastrar Aluno</button>
+                </form>
+                <div id="mensagemCadastro" class="mensagem escondido"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        var sistema = new SistemaAlunos();
+        
+        document.getElementById('formCadastro').addEventListener('submit', function(e) {
+            e.preventDefault();
+            sistema.cadastrarNovoAluno();
+        });
+    </script>
+</body>
+</html>
