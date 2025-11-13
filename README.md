@@ -1,19 +1,19 @@
 # Sistema de Gerenciamento de Alunos
 
-Este projeto é uma aplicação web simples para gerenciamento de alunos, desenvolvida em Java puro (sem frameworks externos como Spring). Ele implementa uma arquitetura RESTful API com interface web, utilizando um servidor HTTP embutido no Java, banco de dados MySQL e manipulação manual de JSON.
+Este projeto é uma aplicação web completa para gerenciamento de alunos, desenvolvida em Java puro (sem frameworks externos como Spring). Ele implementa uma arquitetura RESTful API com interface web responsiva, utilizando um servidor HTTP embutido no Java, banco de dados MySQL e manipulação automática de JSON.
 
 ## O que o código faz
 
 O sistema permite realizar operações CRUD (Create, Read, Update, Delete) em registros de alunos. Cada aluno possui:
-- ID (inteiro, chave primária)
-- Nome (string)
-- Email (string)
-- Curso (string)
+- ID (inteiro, chave primária, auto-incremento)
+- Nome (string, obrigatório)
+- Email (string, único, obrigatório)
+- Curso (string, obrigatório)
 
 A aplicação oferece uma interface web responsiva onde é possível:
 - Cadastrar novos alunos
-- Listar todos os alunos cadastrados
-- Buscar um aluno específico por ID
+- Listar todos os alunos cadastrados em uma tabela
+- Buscar um aluno específico por ID para atualização
 - Atualizar dados de um aluno existente
 - Excluir alunos do sistema
 
@@ -41,7 +41,7 @@ src/
     ├── cadastro.html        # Formulário de cadastro
     ├── lista.html           # Tabela com lista de alunos
     ├── atualizar.html       # Formulário de atualização
-    ├── style.css            # Estilos CSS
+    ├── style.css            # Estilos CSS responsivos
     └── script.js            # JavaScript para interações AJAX
 ```
 
@@ -120,7 +120,7 @@ public void handle(HttpExchange exchange) throws IOException {
    ```java
    exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
    exchange.sendResponseHeaders(200, resposta.getBytes("UTF-8").length);
-   
+
    OutputStream saida = exchange.getResponseBody();
    saida.write(resposta.getBytes("UTF-8"));
    saida.close();
@@ -228,14 +228,21 @@ saida.close();
 ```java
 private Conexao(){
     usuario_mysql = "root";
-    senha_mysql = "";
+    senha_mysql = "PUC@1234";
     con_banco = "jdbc:mysql://127.0.0.1:3306/?useSSL=false";
 
     try{
         Class.forName("com.mysql.cj.jdbc.Driver");
         conn = (Connection) DriverManager.getConnection(con_banco, usuario_mysql, senha_mysql);
         java.sql.Statement stmt = conn.createStatement();
+        stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS escola");
         stmt.executeUpdate("USE escola");
+        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS alunos (" +
+            "id INT AUTO_INCREMENT PRIMARY KEY, " +
+            "nome VARCHAR(100) NOT NULL, " +
+            "email VARCHAR(100) UNIQUE NOT NULL, " +
+            "curso VARCHAR(50) NOT NULL" +
+            ")");
         stmt.close();
     }
     catch(Exception e){
@@ -246,18 +253,30 @@ private Conexao(){
 
 **Padrão Singleton:** Garante uma única conexão compartilhada, evitando overhead de múltiplas conexões.
 
+**Criação automática do banco e tabela:**
+- `CREATE DATABASE IF NOT EXISTS escola` - Cria o banco se não existir
+- `CREATE TABLE IF NOT EXISTS alunos` - Cria a tabela com estrutura completa
+- Constraints: NOT NULL, UNIQUE, AUTO_INCREMENT
+
 #### Operações CRUD (`AlunoDAO.java`)
 
 Usa `PreparedStatement` para prevenir SQL Injection:
 
 ```java
-public void insereAluno(Aluno aluno) {
-    this.query = "INSERT INTO alunos (nome, email, curso) VALUES (?, ?, ?)";
-    this.ps = this.conexao.getConexao().prepareStatement(this.query);
-    this.ps.setString(1, aluno.getNome());
-    this.ps.setString(2, aluno.getEmail());
-    this.ps.setString(3, aluno.getCurso());
-    this.ps.executeUpdate();
+public boolean insereAluno(Aluno aluno) {
+    try {
+        this.query = "INSERT INTO alunos (nome, email, curso) VALUES (?, ?, ?)";
+        this.ps = this.conexao.getConexao().prepareStatement(this.query);
+        this.ps.setString(1, aluno.getNome());
+        this.ps.setString(2, aluno.getEmail());
+        this.ps.setString(3, aluno.getCurso());
+        int linhasAfetadas = this.ps.executeUpdate();
+        this.ps.close();
+        return linhasAfetadas > 0;
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
 }
 ```
 
@@ -301,19 +320,14 @@ fetch(self.urlApi + '/alunos/cadastrar', {
 
 ## Configuração do Banco de Dados
 
-1. Instalar e iniciar MySQL Server
-2. Criar banco de dados:
-```sql
-CREATE DATABASE escola;
-USE escola;
+O banco de dados é criado automaticamente pelo código. Basta ter o MySQL Server rodando.
 
-CREATE TABLE alunos (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255) NOT NULL,
-    email VARCHAR(255),
-    curso VARCHAR(255)
-);
-```
+**Configuração da conexão (Conexao.java):**
+- Host: 127.0.0.1 (localhost)
+- Porta: 3306 (padrão MySQL)
+- Usuário: root
+- Senha: PUC@1234
+- Banco: escola (criado automaticamente)
 
 ## Como executar
 
@@ -381,19 +395,6 @@ A aplicação oferece uma interface web responsiva acessível em `http://localho
 
 A interface utiliza JavaScript vanilla para fazer requisições AJAX à API, proporcionando uma experiência fluida sem recarregamento de página.
 
-## Limitações e Melhorias Possíveis
-
-1. **Segurança:** Não há autenticação/autorização
-2. **Validação:** Validação básica apenas no frontend (nome obrigatório no cadastro)
-3. **Conexão:** Uma única conexão compartilhada (não ideal para produção)
-4. **Frontend:** JavaScript vanilla, sem frameworks modernos
-5. **Testes:** Não há testes automatizados
-6. **Tratamento de Erros:** Tratamento básico de exceções nos controllers
-7. **Pool de Conexões:** Não utiliza pool de conexões para melhor performance
-8. **Logs:** Não há sistema de logging estruturado
-9. **CORS:** Não há configuração CORS para requisições de outros domínios
-10. **Paginação:** Não há paginação na listagem de alunos
-
 ## Tecnologias Utilizadas
 
 - **Java 11+**: Linguagem principal
@@ -405,4 +406,50 @@ A interface utiliza JavaScript vanilla para fazer requisições AJAX à API, pro
 - **JavaScript (ES5)**: Interações AJAX
 - **UTF-8**: Encoding para suporte a caracteres especiais
 
-Este projeto serve como exemplo educacional de como construir uma aplicação web completa usando apenas recursos nativos do Java, demonstrando conceitos fundamentais de desenvolvimento web sem depender de frameworks externos.
+## Detalhes Técnicos das Bibliotecas
+
+### Jackson (JSON Processing)
+
+**Bibliotecas utilizadas:**
+- `jackson-core-2.15.2.jar`: Núcleo do Jackson
+- `jackson-databind-2.15.2.jar`: Vinculação de dados (conversão objeto-JSON)
+- `jackson-annotations-2.15.2.jar`: Anotações para configuração
+
+**Como funciona:**
+```java
+ObjectMapper objectMapper = new ObjectMapper();
+String json = objectMapper.writeValueAsString(objeto);  // Java -> JSON
+Objeto obj = objectMapper.readValue(json, Classe.class); // JSON -> Java
+```
+
+**Por que Jackson:**
+- **Automático:** Não precisa escrever parsers manuais
+- **Type-safe:** Conversões seguras com tipos Java
+- **Flexível:** Suporte a anotações para customização
+- **Performático:** Otimizado para alta performance
+- **Robusto:** Trata casos edge automaticamente
+
+### MySQL Connector/J
+
+**Biblioteca:** `mysql-connector-j-8.0.32.jar` (ou 8.0.33.jar)
+
+**Como funciona:**
+```java
+Class.forName("com.mysql.cj.jdbc.Driver");
+Connection conn = DriverManager.getConnection(url, usuario, senha);
+```
+
+**Recursos utilizados:**
+- **PreparedStatement:** Queries parametrizadas seguras
+- **ResultSet:** Leitura de resultados de queries
+- **AutoCommit:** Transações automáticas
+- **Connection Pooling:** Não utilizado (singleton simples)
+
+**Por que MySQL:**
+- **Relacional:** Estrutura de dados organizada
+- **SQL padrão:** Linguagem de consulta universal
+- **Transacional:** ACID compliance
+- **Escalável:** Suporte a grandes volumes de dados
+- **Maduro:** Tecnologia consolidada no mercado
+
+Este projeto serve como exemplo educacional completo de como construir uma aplicação web full-stack usando apenas recursos nativos do Java, demonstrando conceitos fundamentais de desenvolvimento web sem depender de frameworks externos.
