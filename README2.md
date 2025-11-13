@@ -185,17 +185,3 @@ java -cp "lib/*:src" Main
 ## Equipe
 
 - **Karen & Breno** (2 estudantes)
-
-## Conclusão
-
-Este projeto atende 100% aos requisitos do TDE:
-
-✅ **Sistema Java** com tema definido (Gerenciamento de Alunos)  
-✅ **3+ páginas web** com interface gráfica (HTML/CSS/JS)  
-✅ **API fetch** para comunicação assíncrona  
-✅ **Servidor Java** (HttpServer nativo)  
-✅ **Persistência MySQL** (JDBC + PreparedStatement)  
-✅ **Sem Spring/Spring Boot**  
-✅ **Equipe de até 3 estudantes** (2 estudantes)  
-
-O sistema está completo e funcional, pronto para avaliação.
