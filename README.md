@@ -339,14 +339,60 @@ java -cp "lib/*:src" Main
 | PUT | `/api/alunos/atualizar` | Atualiza aluno |
 | DELETE | `/api/alunos/excluir/{id}` | Exclui aluno |
 
+## Exemplos de Uso da API
+
+### Cadastrar um novo aluno
+```bash
+curl -X POST http://localhost:8080/api/alunos/cadastrar \
+  -H "Content-Type: application/json" \
+  -d '{"nome": "João Silva", "email": "joao@email.com", "curso": "Engenharia"}'
+```
+
+### Listar todos os alunos
+```bash
+curl http://localhost:8080/api/alunos
+```
+
+### Buscar aluno por ID
+```bash
+curl http://localhost:8080/api/alunos/buscar/1
+```
+
+### Atualizar aluno
+```bash
+curl -X PUT http://localhost:8080/api/alunos/atualizar \
+  -H "Content-Type: application/json" \
+  -d '{"id": 1, "nome": "João Silva Atualizado", "email": "joao.atualizado@email.com", "curso": "Engenharia Civil"}'
+```
+
+### Excluir aluno
+```bash
+curl -X DELETE http://localhost:8080/api/alunos/excluir/1
+```
+
+## Interface Web
+
+A aplicação oferece uma interface web responsiva acessível em `http://localhost:8080`:
+
+- **Página Inicial (`/`)**: Apresentação do sistema e navegação para funcionalidades
+- **Cadastro (`/cadastro.html`)**: Formulário para cadastrar novos alunos
+- **Lista (`/lista.html`)**: Tabela com todos os alunos cadastrados, com opções de editar e excluir
+- **Atualizar (`/atualizar.html`)**: Formulário para atualizar dados de um aluno existente
+
+A interface utiliza JavaScript vanilla para fazer requisições AJAX à API, proporcionando uma experiência fluida sem recarregamento de página.
+
 ## Limitações e Melhorias Possíveis
 
 1. **Segurança:** Não há autenticação/autorização
-2. **Validação:** Validação básica apenas no frontend
-3. **JSON:** Parser manual limitado, vulnerável a erros
-4. **Conexão:** Uma única conexão compartilhada (não ideal para produção)
-5. **Frontend:** JavaScript vanilla, sem frameworks modernos
-6. **Testes:** Não há testes automatizados
+2. **Validação:** Validação básica apenas no frontend (nome obrigatório no cadastro)
+3. **Conexão:** Uma única conexão compartilhada (não ideal para produção)
+4. **Frontend:** JavaScript vanilla, sem frameworks modernos
+5. **Testes:** Não há testes automatizados
+6. **Tratamento de Erros:** Tratamento básico de exceções nos controllers
+7. **Pool de Conexões:** Não utiliza pool de conexões para melhor performance
+8. **Logs:** Não há sistema de logging estruturado
+9. **CORS:** Não há configuração CORS para requisições de outros domínios
+10. **Paginação:** Não há paginação na listagem de alunos
 
 ## Tecnologias Utilizadas
 
