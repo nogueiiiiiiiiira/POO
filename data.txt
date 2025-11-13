@@ -1,3 +1,4 @@
+CREATE DATABASE escola;
 USE escola;
 DROP TABLE IF EXISTS alunos;
 CREATE TABLE alunos (

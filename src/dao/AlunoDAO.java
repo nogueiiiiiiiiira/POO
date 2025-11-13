@@ -14,17 +14,19 @@ public class AlunoDAO {
    public AlunoDAO() {}
 
    // Breno: Removida referência a cimento na inserção e adicionado tratamento de exceções
-   public void insereAluno(Aluno aluno) {
+   public boolean insereAluno(Aluno aluno) {
       try {
          this.query = "INSERT INTO alunos (nome, email, curso) VALUES (?, ?, ?)";
          this.ps = this.conexao.getConexao().prepareStatement(this.query);
          this.ps.setString(1, aluno.getNome());
          this.ps.setString(2, aluno.getEmail());
          this.ps.setString(3, aluno.getCurso());
-         this.ps.executeUpdate();
+         int linhasAfetadas = this.ps.executeUpdate();
          this.ps.close();
+         return linhasAfetadas > 0;
       } catch (SQLException e) {
          e.printStackTrace();
+         return false;
       }
    }
 

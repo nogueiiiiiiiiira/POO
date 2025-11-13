@@ -60,6 +60,7 @@ public class Main {
             });
 
             servidor.start();
+            System.out.println("Servidor iniciado em: http://localhost:8080");
 
         } catch (java.net.BindException e) {
 

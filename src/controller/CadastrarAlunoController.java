@@ -32,13 +32,22 @@ public class CadastrarAlunoController implements HttpHandler {
                     return;
                 }
                 
-                alunoController.getAlunoDAO().insereAluno(aluno);
-                String resposta = "{\"sucesso\": true}";
-                
+                boolean sucesso = alunoController.getAlunoDAO().insereAluno(aluno);
+                String resposta;
+                int statusCode;
+
+                if (sucesso) {
+                    resposta = "{\"sucesso\": true}";
+                    statusCode = 200;
+                } else {
+                    resposta = "{\"sucesso\": false, \"erro\": \"Falha ao cadastrar aluno\"}";
+                    statusCode = 500;
+                }
+
                 // Breno: Adicionado charset UTF-8 para garantir encoding correto
                 exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
-                exchange.sendResponseHeaders(200, resposta.getBytes("UTF-8").length);
-                
+                exchange.sendResponseHeaders(statusCode, resposta.getBytes("UTF-8").length);
+
                 OutputStream saida = exchange.getResponseBody();
                 saida.write(resposta.getBytes("UTF-8"));
                 saida.close();
