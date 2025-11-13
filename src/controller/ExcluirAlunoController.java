@@ -14,18 +14,6 @@ public class ExcluirAlunoController implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        // Breno: Adicionado suporte a CORS para permitir requisições do navegador
-        exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-        exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "DELETE, OPTIONS");
-        exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type");
-        
-        // Breno: Responde a requisições OPTIONS (preflight) do CORS
-        if ("OPTIONS".equals(exchange.getRequestMethod())) {
-            exchange.sendResponseHeaders(200, -1);
-            exchange.close();
-            return;
-        }
-        
         if ("DELETE".equals(exchange.getRequestMethod())) {
             try {
                 String caminho = exchange.getRequestURI().getPath();

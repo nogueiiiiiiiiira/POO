@@ -14,18 +14,6 @@ public class BuscarAlunoController implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        // Breno: Adicionado suporte a CORS para permitir requisições do navegador
-        exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-        exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, OPTIONS");
-        exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type");
-        
-        // Breno: Responde a requisições OPTIONS (preflight) do CORS
-        if ("OPTIONS".equals(exchange.getRequestMethod())) {
-            exchange.sendResponseHeaders(200, -1);
-            exchange.close();
-            return;
-        }
-        
         if ("GET".equals(exchange.getRequestMethod())) {
             try {
                 String caminho = exchange.getRequestURI().getPath();
@@ -46,7 +34,6 @@ public class BuscarAlunoController implements HttpHandler {
                 var aluno = alunoController.getAlunoDAO().buscarAlunoPorId(id);
                 String resposta;
                 
-                // Breno: Removida referência a data_nascimento do JSON de resposta
                 if (aluno != null) {
                     resposta = String.format("{\"id\": %d, \"nome\": \"%s\", \"email\": \"%s\", \"curso\": \"%s\"}",
                         aluno.getId(), aluno.getNome(), aluno.getEmail(), aluno.getCurso());

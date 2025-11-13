@@ -14,18 +14,6 @@ public class ListarAlunosController implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        // Breno: Adicionado suporte a CORS para permitir requisições do navegador
-        exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-        exchange.getResponseHeaders().add("Access-Control-Allow-Methods", "GET, OPTIONS");
-        exchange.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type");
-        
-        // Breno: Responde a requisições OPTIONS (preflight) do CORS
-        if ("OPTIONS".equals(exchange.getRequestMethod())) {
-            exchange.sendResponseHeaders(200, -1);
-            exchange.close();
-            return;
-        }
-        
         if ("GET".equals(exchange.getRequestMethod())) {
             try {
                 var alunos = alunoController.getAlunoDAO().listarAlunos();
@@ -38,6 +26,7 @@ public class ListarAlunosController implements HttpHandler {
                 OutputStream saida = exchange.getResponseBody();
                 saida.write(resposta.getBytes("UTF-8"));
                 saida.close();
+                
             } catch (Exception e) {
                 // Breno: Adicionado tratamento de erros com resposta JSON adequada
                 e.printStackTrace();

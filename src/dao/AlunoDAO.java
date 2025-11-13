@@ -13,7 +13,7 @@ public class AlunoDAO {
 
    public AlunoDAO() {}
 
-   // Breno: Removida referência a data_nascimento na inserção e adicionado tratamento de exceções
+   // Breno: Removida referência a cimento na inserção e adicionado tratamento de exceções
    public void insereAluno(Aluno aluno) {
       try {
          this.query = "INSERT INTO alunos (nome, email, curso) VALUES (?, ?, ?)";
@@ -25,11 +25,9 @@ public class AlunoDAO {
          this.ps.close();
       } catch (SQLException e) {
          e.printStackTrace();
-         throw new RuntimeException("Erro ao inserir aluno: " + e.getMessage(), e);
       }
    }
 
-   // Breno: Removida referência a data_nascimento na listagem e adicionado tratamento de exceções
    public ArrayList<Aluno> listarAlunos() {
       ArrayList<Aluno> alunos = new ArrayList<>();
       try {
@@ -48,12 +46,10 @@ public class AlunoDAO {
          this.ps.close();
       } catch (SQLException e) {
          e.printStackTrace();
-         throw new RuntimeException("Erro ao listar alunos: " + e.getMessage(), e);
       }
       return alunos;
    }
 
-   // Breno: Removida referência a data_nascimento na atualização e adicionado tratamento de exceções
    public void atualizarAluno(Aluno aluno) {
       try {
          this.query = "UPDATE alunos SET nome = ?, email = ?, curso = ? WHERE id = ?";
@@ -66,7 +62,6 @@ public class AlunoDAO {
          this.ps.close();
       } catch (SQLException e) {
          e.printStackTrace();
-         throw new RuntimeException("Erro ao atualizar aluno: " + e.getMessage(), e);
       }
    }
 
@@ -80,11 +75,9 @@ public class AlunoDAO {
          this.ps.close();
       } catch (SQLException e) {
          e.printStackTrace();
-         throw new RuntimeException("Erro ao excluir aluno: " + e.getMessage(), e);
       }
    }
 
-   // Breno: Removida referência a data_nascimento na busca e adicionado tratamento de exceções
    public Aluno buscarAlunoPorId(int id) {
       Aluno aluno = null;
       try {
@@ -103,7 +96,6 @@ public class AlunoDAO {
          this.ps.close();
       } catch (SQLException e) {
          e.printStackTrace();
-         throw new RuntimeException("Erro ao buscar aluno: " + e.getMessage(), e);
       }
       return aluno;
    }
