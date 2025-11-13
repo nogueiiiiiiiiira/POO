@@ -43,6 +43,12 @@ src/
     ├── atualizar.html       # Formulário de atualização
     ├── style.css            # Estilos CSS responsivos
     └── script.js            # JavaScript para interações AJAX
+
+lib/
+├── jackson-annotations-2.15.2.jar
+├── jackson-core-2.15.2.jar
+├── jackson-databind-2.15.2.jar
+└── mysql-connector-j-8.0.33.jar  # Versão mais recente mantida
 ```
 
 ## Como funciona por trás das bibliotecas

@@ -27,6 +27,7 @@ public class Main {
 
             servidor.createContext("/", exchange -> {
                 String caminho = exchange.getRequestURI().getPath();
+                
                 if (caminho.equals("/")) {
                     caminho = "/index.html";
                 }

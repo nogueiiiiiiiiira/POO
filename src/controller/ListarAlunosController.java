@@ -28,14 +28,7 @@ public class ListarAlunosController implements HttpHandler {
                 saida.close();
                 
             } catch (Exception e) {
-                // Breno: Adicionado tratamento de erros com resposta JSON adequada
                 e.printStackTrace();
-                String erro = "{\"erro\": \"Erro ao listar alunos: " + e.getMessage() + "\"}";
-                exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
-                exchange.sendResponseHeaders(500, erro.getBytes("UTF-8").length);
-                OutputStream saida = exchange.getResponseBody();
-                saida.write(erro.getBytes("UTF-8"));
-                saida.close();
             }
         } else {
             exchange.sendResponseHeaders(405, -1);

@@ -13,7 +13,6 @@ public class AlunoDAO {
 
    public AlunoDAO() {}
 
-   // Breno: Removida referência a cimento na inserção e adicionado tratamento de exceções
    public boolean insereAluno(Aluno aluno) {
       try {
          this.query = "INSERT INTO alunos (nome, email, curso) VALUES (?, ?, ?)";

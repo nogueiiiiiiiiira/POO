@@ -37,12 +37,5 @@ public class AlunoController {
         }
     }
 
-    public Aluno converterJsonParaAlunoComId(String json) {
-        try {
-            return objectMapper.readValue(json, Aluno.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new Aluno();
-        }
-    }
+
 }
